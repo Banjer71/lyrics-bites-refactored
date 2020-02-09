@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ArtistCard from './ArtistCard';
 import Loader from './Loader';
+import './searchbar.css'
 
 const SearchBar = () => {
 	const [ trackList, setTrackList ] = useState([]);
@@ -48,7 +49,7 @@ const SearchBar = () => {
 						<option value="q_track">By Song</option>
 						<option value="q_lyrics">By Word</option>
 					</select>
-					<br />
+				
 					<input
 						text="text"
 						name="trackTitle"

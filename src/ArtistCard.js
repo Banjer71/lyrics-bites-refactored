@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './artistcard.css';
 
 const ArtistCard = ({ track }) => {
 	const [ cover, setCover ] = useState('');
@@ -15,7 +16,7 @@ const ArtistCard = ({ track }) => {
 			fetch(lastfm)
 				.then((res) => res.json())
 				.then((data) => {
-					const albumCover = data.results.albummatches.album[0].image[2]['#text'];
+					const albumCover = data.results.albummatches.album[0].image[3]['#text'];
 					setCover(albumCover);
 				})
 				.catch((err) => console.log(err));
@@ -25,13 +26,14 @@ const ArtistCard = ({ track }) => {
 
 	return (
 		<div className="card">
-			<h2>Artist: {track.artist_name}</h2>
-			<p>
-				Album: <img src={cover} alt="pic" />
+			<h2 className="card-artist">{track.artist_name}</h2>
+			<p className='card-info-album'>Album: {track.album_name}</p>
+			<p className="album-cover">
+				<img src={cover} alt="pic" />
 			</p>
-			<p>Album: {track.album_name}</p>
-			<p>Track: {track.track_name}</p>
-			<p>Track: {track.track_id}</p>
+
+			<p className='card-info-album track-name'>Track: {track.track_name}</p>
+			{/* <p className='card-info-album'>Track: {track.track_id}</p> */}
 			<button type="submit" className="btn-lyrics">
 				<Link
 					to={{

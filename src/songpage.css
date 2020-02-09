@@ -1,0 +1,38 @@
+h1.song-title {
+	font-family: monospace;
+	font-size: 1.5rem;
+}
+
+pre {
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	text-align: center;
+	font-family: monospace;
+	font-size: 1.1rem;
+}
+
+.lyrics {
+	width: 100%;
+	margin: 30px auto;
+}
+
+.cover-art {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 10px;
+	padding: .5rem;
+}
+
+p.cover-art-info {
+	text-align: center;
+	font-size: 1.4rem;
+	margin-top: 10px;
+	padding: 5px;
+	font-weight: 600;
+}
