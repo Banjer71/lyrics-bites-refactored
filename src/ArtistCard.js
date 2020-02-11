@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import defImg from './default-image_600.png'
 import './artistcard.css';
 
 const ArtistCard = ({ track }) => {
@@ -10,10 +11,10 @@ const ArtistCard = ({ track }) => {
 			let albumName = track.album_name;
 			let name = albumName.replace(/ /gi, '%20');
 
-			const lastfm = `https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=album.search&album=${name}&api_key=${process
-				.env.REACT_APP_API_KEY_LASTFM}&format=json`;
+			const lastfm2 = `/?method=album.search&album=${name}&api_key=${process.env
+				.REACT_APP_API_KEY_LASTFM}&format=json`;
 
-			fetch(lastfm)
+			fetch(`/2.0${lastfm2}`)
 				.then((res) => res.json())
 				.then((data) => {
 					const albumCover = data.results.albummatches.album[0].image[3]['#text'];
@@ -27,13 +28,10 @@ const ArtistCard = ({ track }) => {
 	return (
 		<div className="card">
 			<h2 className="card-artist">{track.artist_name}</h2>
-			<p className='card-info-album'>Album: {track.album_name}</p>
-			<p className="album-cover">
-				<img src={cover} alt="pic" />
-			</p>
+			<p className="card-info-album">Album: {track.album_name}</p>
+			<p className="album-cover">{cover ? <img src={cover} alt="pic" /> : <img src={defImg} alt="pic" />}</p>
 
-			<p className='card-info-album track-name'>Track: {track.track_name}</p>
-			{/* <p className='card-info-album'>Track: {track.track_id}</p> */}
+			<p className="card-info-album track-name">Track: {track.track_name}</p>
 			<button type="submit" className="btn-lyrics">
 				<Link
 					to={{

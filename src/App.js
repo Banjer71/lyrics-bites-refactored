@@ -8,7 +8,7 @@ function App() {
 	return (
 		<div className="App">
 			<h1>Lyrics Bites</h1>
-      <h3>Learn your favourite song one bite at a time</h3>
+			<h3>Learn your favourite song one bite at a time</h3>
 			<Router>
 				<Route path="/" exact component={SearchBar} />
 				<Route path="/SongPage" exact component={SongPage} />

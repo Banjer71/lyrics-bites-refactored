@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import defImage from './default-image_600.png';
 import './songpage.css';
 
 const SongPage = (props) => {
@@ -19,9 +20,7 @@ const SongPage = (props) => {
 			return;
 		}
 
-		const musixmatch = 'https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1';
-
-		fetch(`${musixmatch}/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+		fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
 			.then((response) => response.json())
 			.then(
 				(data) => {
@@ -30,8 +29,7 @@ const SongPage = (props) => {
 					setCopyright(words.lyrics_copyright);
 
 					return fetch(
-						`${musixmatch}/track.search?q_track=${songTrack}&apikey=${process.env
-							.REACT_APP_API_KEY_MUSICMATCH}`
+						`/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 					)
 						.then((res) => res.json())
 						.then((data) => {
@@ -53,19 +51,24 @@ const SongPage = (props) => {
 			if (!album) {
 				return;
 			}
-			const lastfm = `https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=album.search&album=`;
-			fetch(`${lastfm}${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`, { signal: signal })
+
+			fetch(
+				`/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+				{ signal: signal }
+			)
 				.then((res) => res.json())
 				.then((data) => {
-					const albumCover = data.results.albummatches.album[0].image[3]['#text'];
-					const artist = data.results.albummatches.album[0].artist;
-					const albumName = data.results.albummatches.album[0].name;
-					setCover(albumCover);
-					setArtist(artist);
-					setAlbumTitle(albumName);
+					const albumInfo = data.results.albummatches.album[0];
+					console.log(albumInfo);
+					if (typeof albumInfo !== 'undefined') {
+						setCover(albumInfo.image[3]['#text']);
+						setArtist(albumInfo.artist);
+						setAlbumTitle(albumInfo.name);
+					} else {
+						setCover(defImage);
+					}
 				});
 
-			//not sure this is workinf well but I will test it more
 			return function cleanUp() {
 				abortControlledApi.abort();
 			};
@@ -87,11 +90,11 @@ const SongPage = (props) => {
 						<button>Back to the HomePage</button>
 					</Link>
 				</div>
-				<div className="cover-art">
-					<img src={cover} alt="" />
+				<p className="cover-art">
+					<img src={cover} alt="album cover" />
 					<p className="cover-art-info">{artist}</p>
 					<p className="cover-art-info">{albumTitle}</p>
-				</div>
+				</p>
 			</div>
 		</div>
 	);

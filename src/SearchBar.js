@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ArtistCard from './ArtistCard';
 import Loader from './Loader';
-import './searchbar.css'
+import './searchbar.css';
 
 const SearchBar = () => {
 	const [ trackList, setTrackList ] = useState([]);
@@ -11,12 +11,12 @@ const SearchBar = () => {
 
 	const getTrack = (e) => {
 		e.preventDefault();
-		const url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?
-        ${query}=${trackTitle}&page_size=5&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`;
+		const restUrl = `/track.search?${query}=${trackTitle}&page_size=5&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=${process
+			.env.REACT_APP_API_KEY_MUSICMATCH}`;
 
 		setIsLoading(true);
 
-		fetch(url).then((response) => response.json()).then((data) => {
+		fetch(`/ws/1.1${restUrl}`).then((response) => response.json()).then((data) => {
 			const info = data.message.body.track_list;
 			setTrackList(info);
 			setIsLoading(false);
@@ -49,7 +49,7 @@ const SearchBar = () => {
 						<option value="q_track">By Song</option>
 						<option value="q_lyrics">By Word</option>
 					</select>
-				
+
 					<input
 						text="text"
 						name="trackTitle"
@@ -73,4 +73,4 @@ const SearchBar = () => {
 	);
 };
 
-export default SearchBar
+export default SearchBar;
