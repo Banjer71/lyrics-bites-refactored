@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import defImage from './default-image_600.png';
+import defImage from './imageDef.png';
 import './songpage.css';
 
 const SongPage = (props) => {
@@ -10,20 +10,21 @@ const SongPage = (props) => {
 	const [ cover, setCover ] = useState('');
 	const [ albumTitle, setAlbumTitle ] = useState('');
 	const [ songTitle, setSongTitle ] = useState('');
+	const [ albumId, setAlbumId ] = useState('');
 
-	useEffect(() => {
-		const trackId = props.location && props.location.state ? props.location.state.trackId : '';
+	useEffect(
+		() => {
+			const trackId = props.location && props.location.state ? props.location.state.trackId : '';
+			const songTrack = props.location && props.location.state ? props.location.state.songName : '';
+			const idAlbum = props.location && props.location.state ? props.location.state.albumId : '';
 
-		const songTrack = props.location && props.location.state ? props.location.state.songName : '';
+			if (!trackId && !songTrack && idAlbum) {
+				return;
+			}
 
-		if (!trackId && !songTrack) {
-			return;
-		}
-
-		fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
-			.then((response) => response.json())
-			.then(
-				(data) => {
+			fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+				.then((response) => response.json())
+				.then((data) => {
 					const words = data.message.body.lyrics;
 					setLyrics(words.lyrics_body);
 					setCopyright(words.lyrics_copyright);
@@ -35,11 +36,22 @@ const SongPage = (props) => {
 						.then((data) => {
 							const songName = data.message.body.track_list;
 							setSongTitle(songName[0].track.track_name);
+
+							return fetch(
+								`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env
+									.REACT_APP_API_KEY_MUSICMATCH}`
+							)
+								.then((res) => res.json())
+								.then((data) => {
+									const albumListSong = data.message.body.track_list;
+									console.log(albumListSong);
+									setAlbumId(albumListSong);
+								});
 						});
-				},
-				[ props.location ]
-			);
-	});
+				});
+		},
+		[ props.location ]
+	);
 
 	useEffect(
 		() => {
@@ -77,10 +89,10 @@ const SongPage = (props) => {
 	);
 
 	return (
-		<div className="song-title">
+		<div className="song-box">
 			<div className="song-title-card">
-				<h1 className="song-title">{songTitle}</h1>
 				<div className="song-text">
+					<h1 className="song-title">{songTitle}</h1>
 					<pre className="lyrics">
 						{lyric !== '' ? lyric : copyRight === '' ? 'no lyrics on the database' : copyRight}
 					</pre>
@@ -90,11 +102,21 @@ const SongPage = (props) => {
 						<button>Back to the HomePage</button>
 					</Link>
 				</div>
-				<p className="cover-art">
+				<div className="cover-art">
 					<img src={cover} alt="album cover" />
 					<p className="cover-art-info">{artist}</p>
 					<p className="cover-art-info">{albumTitle}</p>
-				</p>
+					<ul className="record-tracks">
+						{albumId &&
+							albumId.map((song) => {
+								return (
+									<li key={song.track.track_id}>
+										<a href="#">{song.track.track_name}</a>
+									</li>
+								);
+							})}
+					</ul>
+				</div>
 			</div>
 		</div>
 	);

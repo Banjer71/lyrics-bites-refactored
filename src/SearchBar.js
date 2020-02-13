@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ArtistCard from './ArtistCard';
+import Header from './Header'
 import Loader from './Loader';
 import './searchbar.css';
 
@@ -11,13 +12,14 @@ const SearchBar = () => {
 
 	const getTrack = (e) => {
 		e.preventDefault();
-		const restUrl = `/track.search?${query}=${trackTitle}&page_size=5&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=${process
+		const restUrl = `/track.search?${query}=${trackTitle}&page_size=4&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=${process
 			.env.REACT_APP_API_KEY_MUSICMATCH}`;
 
 		setIsLoading(true);
 
 		fetch(`/ws/1.1${restUrl}`).then((response) => response.json()).then((data) => {
 			const info = data.message.body.track_list;
+			console.log(info)
 			setTrackList(info);
 			setIsLoading(false);
 		});
@@ -41,6 +43,7 @@ const SearchBar = () => {
 
 	return (
 		<div className="search-bar">
+			<Header/>
 			<div className="field">
 				<form className="form-u" onSubmit={getTrack}>
 					<label>Search a Song</label>
@@ -61,14 +64,16 @@ const SearchBar = () => {
 					<button type="submit">Get Songs</button>
 				</form>
 			</div>
-			{isLoading ? (
-				<Loader />
-			) : (
-				trackList &&
-				trackList.map((name) => {
-					return <ArtistCard key={name.track.track_id} track={name.track} />;
-				})
-			)}
+			<div className="grid track">
+				{isLoading ? (
+					<Loader />
+				) : (
+					trackList &&
+					trackList.map((name) => {
+						return <ArtistCard key={name.track.track_id} track={name.track} />;
+					})
+				)}
+			</div>
 		</div>
 	);
 };

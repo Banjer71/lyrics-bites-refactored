@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import defImg from './default-image_600.png'
+import defImg from './imageDef.png';
 import './artistcard.css';
 
 const ArtistCard = ({ track }) => {
@@ -27,25 +27,29 @@ const ArtistCard = ({ track }) => {
 
 	return (
 		<div className="card">
-			<h2 className="card-artist">{track.artist_name}</h2>
-			<p className="card-info-album">Album: {track.album_name}</p>
-			<p className="album-cover">{cover ? <img src={cover} alt="pic" /> : <img src={defImg} alt="pic" />}</p>
+			{cover ? <img src={cover} alt="pic" /> : <img src={defImg} alt="pic" />}
+			{/* <h2 className="card-artist">{track.artist_name}</h2> */}
+			{/* <p className="card-info-album">Album: {track.album_name}</p> */}
 
-			<p className="card-info-album track-name">Track: {track.track_name}</p>
-			<button type="submit" className="btn-lyrics">
-				<Link
-					to={{
-						pathname: '/SongPage',
-						state: {
-							trackId: track.track_id,
-							album: track.album_name,
-							songName: track.track_name
-						}
-					}}
-				>
-					Get Lyrics
-				</Link>
-			</button>
+			{/* <button className="btn-lyrics"> */}
+			<Link
+				className="card-link"
+				to={{
+					pathname: '/SongPage',
+					state: {
+						trackId: track.track_id,
+						album: track.album_name,
+						songName: track.track_name,
+						albumId: track.album_id
+					}
+				}}
+			>
+				<p>{track.artist_name}</p>
+				<p>{track.track_name}</p>
+
+				{/* <p className="card-info-album track-name">Track: {track.track_name}</p>  */}
+			</Link>
+			{/* </button> */}
 		</div>
 	);
 };
