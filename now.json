@@ -2,7 +2,7 @@
     "build": {
       "env": {
         "REACT_APP_API_KEY_MUSICMATCH": "@musicm",
-        "REACT_APP_API_KEY_LASTFM": "@lastfm"
+        "REACT_APP_API_KEY_LASTFM": "@lasfm"
       }
     }
   }
