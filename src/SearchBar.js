@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ArtistCard from './ArtistCard';
-import Header from './Header'
+import Header from './Header';
 import Loader from './Loader';
 import './searchbar.css';
 
@@ -19,7 +19,6 @@ const SearchBar = () => {
 
 		fetch(`/ws/1.1${restUrl}`).then((response) => response.json()).then((data) => {
 			const info = data.message.body.track_list;
-			console.log(info)
 			setTrackList(info);
 			setIsLoading(false);
 		});
@@ -43,7 +42,7 @@ const SearchBar = () => {
 
 	return (
 		<div className="search-bar">
-			<Header/>
+			<Header />
 			<div className="field">
 				<form className="form-u" onSubmit={getTrack}>
 					<label>Search a Song</label>
@@ -64,6 +63,7 @@ const SearchBar = () => {
 					<button type="submit">Get Songs</button>
 				</form>
 			</div>
+			
 			<div className="grid track">
 				{isLoading ? (
 					<Loader />

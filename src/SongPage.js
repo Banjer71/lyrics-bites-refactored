@@ -44,7 +44,6 @@ const SongPage = (props) => {
 								.then((res) => res.json())
 								.then((data) => {
 									const albumListSong = data.message.body.track_list;
-									console.log(albumListSong);
 									setAlbumId(albumListSong);
 								});
 						});
@@ -71,7 +70,6 @@ const SongPage = (props) => {
 				.then((res) => res.json())
 				.then((data) => {
 					const albumInfo = data.results.albummatches.album[0];
-					console.log(albumInfo);
 					if (typeof albumInfo !== 'undefined') {
 						setCover(albumInfo.image[3]['#text']);
 						setArtist(albumInfo.artist);

@@ -5,15 +5,12 @@ import SongPage from './SongPage';
 
 import './index.css';
 
-function App( props ) {
+function App() {
 	return (
 		<div className="App">
-			
 			<Router>
 				<Route path="/" exact component={SearchBar} />
 				<Route path="/SongPage" exact component={SongPage} />
-				
-			
 			</Router>
 		</div>
 	);

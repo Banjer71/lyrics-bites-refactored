@@ -48,6 +48,11 @@ button {
 	gap: 10px;
 }
 
+.loader {
+	text-align: center;
+	grid-column: 1/9;
+}
+
 @media screen and (min-width: 620px) {
 	select, input, button {
 		max-width: 500px;
