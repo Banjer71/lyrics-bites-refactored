@@ -1,7 +1,7 @@
 {
     "build": {
       "env": {
-        "process.env.REACT_APP_API_KEY_LASTFM": "@musicmatch",
+        "REACT_APP_API_KEY_MUSICMATCH": "@musicmatch",
         "process.env.REACT_APP_API_KEY_LASTFM": "@lastfm"
       }
     }
