@@ -22,7 +22,7 @@ const SongPage = (props) => {
 				return;
 			}
 
-			fetch(`https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+			fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
 				.then((response) => response.json())
 				.then((data) => {
 					const words = data.message.body.lyrics;
@@ -30,7 +30,7 @@ const SongPage = (props) => {
 					setCopyright(words.lyrics_copyright);
 
 					return fetch(
-						`https://api.musixmatch.com/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+						`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 					)
 						.then((res) => res.json())
 						.then((data) => {
@@ -38,7 +38,7 @@ const SongPage = (props) => {
 							setSongTitle(songName[0].track.track_name);
 
 							return fetch(
-								`https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env
+								`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env
 									.REACT_APP_API_KEY_MUSICMATCH}`
 							)
 								.then((res) => res.json())
@@ -64,7 +64,7 @@ const SongPage = (props) => {
 			}
 
 			fetch(
-				`http://ws.audioscrobbler.com/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+				`https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
 				{ signal: signal }
 			)
 				.then((res) => res.json())
