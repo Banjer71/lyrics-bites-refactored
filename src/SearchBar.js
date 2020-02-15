@@ -12,7 +12,7 @@ const SearchBar = () => {
 
 	const getTrack = (e) => {
 		e.preventDefault();
-		const restUrl = `/track.search?${query}=${trackTitle}&page_size=4&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=REACT_APP_API_KEY_MUSICMATCH`;
+		const restUrl = `/track.search?${query}=${trackTitle}&page_size=4&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=@musicmatch`;
 
 		setIsLoading(true);
 
