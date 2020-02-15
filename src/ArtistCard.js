@@ -11,8 +11,7 @@ const ArtistCard = ({ track }) => {
 			let albumName = track.album_name;
 			let name = albumName.replace(/ /gi, '%20');
 
-			const lastfm2 = `/?method=album.search&album=${name}&api_key=${process.env
-				.REACT_APP_API_KEY_LASTFM}&format=json`;
+			const lastfm2 = `/?method=album.search&album=${name}&api_key=REACT_APP_API_KEY_LASTFM&format=json`;
 
 			fetch(`/2.0${lastfm2}`)
 				.then((res) => res.json())
@@ -28,10 +27,6 @@ const ArtistCard = ({ track }) => {
 	return (
 		<div className="card">
 			{cover ? <img src={cover} alt="pic" /> : <img src={defImg} alt="pic" />}
-			{/* <h2 className="card-artist">{track.artist_name}</h2> */}
-			{/* <p className="card-info-album">Album: {track.album_name}</p> */}
-
-			{/* <button className="btn-lyrics"> */}
 			<Link
 				className="card-link"
 				to={{
@@ -46,10 +41,7 @@ const ArtistCard = ({ track }) => {
 			>
 				<p>{track.artist_name}</p>
 				<p>{track.track_name}</p>
-
-				{/* <p className="card-info-album track-name">Track: {track.track_name}</p>  */}
 			</Link>
-			{/* </button> */}
 		</div>
 	);
 };
