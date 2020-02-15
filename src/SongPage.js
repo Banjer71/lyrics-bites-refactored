@@ -42,7 +42,7 @@ const SongPage = (props) => {
 							setSongTitle(songName[0].track.track_name);
 
 							return fetch(
-								`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+								`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 							)
 								.then((res) => res.json())
 								.then((data) => {
