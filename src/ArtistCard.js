@@ -11,7 +11,7 @@ const ArtistCard = ({ track }) => {
 			let albumName = track.album_name;
 			let name = albumName.replace(/ /gi, '%20');
 
-			const lastfm2 = `/?method=album.search&album=${name}&api_key=@lastfm&format=json`;
+			const lastfm2 = `/?method=album.search&album=${name}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`;
 
 			fetch(`https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0${lastfm2}`)
 				.then((res) => res.json())
