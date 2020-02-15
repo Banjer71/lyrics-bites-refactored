@@ -22,15 +22,19 @@ const SongPage = (props) => {
 				return;
 			}
 
-			fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+			fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
 				.then((response) => response.json())
 				.then((data) => {
 					const words = data.message.body.lyrics;
-					setLyrics(words.lyrics_body);
-					setCopyright(words.lyrics_copyright);
+					if (typeof words !== 'undefined') {
+						setLyrics(words.lyrics_body);
+						setCopyright(words.lyrics_copyright);
+					} else {
+						return;
+					}
 
 					return fetch(
-						`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+						`/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 					)
 						.then((res) => res.json())
 						.then((data) => {
@@ -38,7 +42,7 @@ const SongPage = (props) => {
 							setSongTitle(songName[0].track.track_name);
 
 							return fetch(
-								`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env
+								`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env
 									.REACT_APP_API_KEY_MUSICMATCH}`
 							)
 								.then((res) => res.json())
@@ -56,7 +60,6 @@ const SongPage = (props) => {
 		() => {
 			const abortControlledApi = new AbortController();
 			const signal = abortControlledApi.signal;
-
 			const album = props.location && props.location.state ? props.location.state.album : '';
 
 			if (!album) {
@@ -64,7 +67,7 @@ const SongPage = (props) => {
 			}
 
 			fetch(
-				`https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+				`/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
 				{ signal: signal }
 			)
 				.then((res) => res.json())
@@ -86,6 +89,29 @@ const SongPage = (props) => {
 		[ props.location ]
 	);
 
+	const getAlbumTracks = (idTrack, idAlbum) => {
+		fetch(`/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+			.then((res) => res.json())
+			.then((data) => {
+				const lyric = data.message.body.lyrics;
+				setLyrics(lyric.lyrics_body);
+
+				return fetch(
+					`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+				)
+					.then((res) => res.json())
+					.then((data) => {
+						const songName = data.message.body.track_list;
+						setSongTitle(
+							songName &&
+								songName.map((item) => {
+									return idTrack === item.track.track_id ? item.track.track_name : null;
+								})
+						);
+					});
+			});
+	};
+
 	return (
 		<div className="song-box">
 			<div className="song-title-card">
@@ -94,6 +120,7 @@ const SongPage = (props) => {
 					<pre className="lyrics">
 						{lyric !== '' ? lyric : copyRight === '' ? 'no lyrics on the database' : copyRight}
 					</pre>
+
 					<button className="btn-get-song">Get your song via Email</button>
 
 					<Link to="/">
@@ -108,8 +135,11 @@ const SongPage = (props) => {
 						{albumId &&
 							albumId.map((song) => {
 								return (
-									<li key={song.track.track_id}>
-										<a href="#">{song.track.track_name}</a>
+									<li
+										key={song.track.track_id}
+										onClick={() => getAlbumTracks(song.track.track_id, song.track.album_id)}
+									>
+										<Link to="#">{song.track.track_name}</Link>
 									</li>
 								);
 							})}

@@ -17,7 +17,7 @@ const SearchBar = () => {
 
 		setIsLoading(true);
 
-		fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1${restUrl}`).then((response) => response.json()).then((data) => {
+		fetch(`/ws/1.1${restUrl}`).then((response) => response.json()).then((data) => {
 			const info = data.message.body.track_list;
 			setTrackList(info);
 			setIsLoading(false);
