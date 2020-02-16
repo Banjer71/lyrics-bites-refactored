@@ -10,10 +10,10 @@ function App() {
 	return (
 		<div className="App">
 			<Router>
-				<ScrollToTop>
+				
 					<Route path="/" exact component={SearchBar} />
 					<Route path="/SongPage" exact component={SongPage} />
-				</ScrollToTop>
+				
 			</Router>
 		</div>
 	);

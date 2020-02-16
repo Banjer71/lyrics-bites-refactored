@@ -112,7 +112,7 @@ const SongPage = (props) => {
 	};
 
 	return (
-		<div className="song-box">
+		<div className="song-box" id='top'>
 			<div className="song-title-card">
 				<div className="song-text">
 					<h1 className="song-title">{songTitle}</h1>
@@ -138,7 +138,7 @@ const SongPage = (props) => {
 										key={song.track.track_id}
 										onClick={() => getAlbumTracks(song.track.track_id, song.track.album_id)}
 									>
-										<Link to="#">{song.track.track_name}</Link>
+										<a href='#top'>{song.track.track_name}</a>
 									</li>
 								);
 							})}
