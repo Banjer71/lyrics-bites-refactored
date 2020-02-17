@@ -10,10 +10,8 @@ function App() {
 	return (
 		<div className="App">
 			<Router>
-				
-					<Route path="/" exact component={SearchBar} />
-					<Route path="/SongPage" exact component={SongPage} />
-				
+				<Route path="/" exact component={SearchBar} />
+				<Route path="/SongPage" exact component={SongPage} />
 			</Router>
 		</div>
 	);
