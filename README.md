@@ -1,4 +1,4 @@
-## `Lyrics Bites`...refatored with React hooks
+## `Lyrics Bites`...refactored with React hooks
 
 Learn your favourite songs one bite at a time
 
